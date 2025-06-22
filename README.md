@@ -37,6 +37,21 @@ response = client.chat(
 puts response.choices[0].message.content
 ```
 
+## 💻 Code Completion
+
+```crystal
+ client = CrystalMistral::Client.new
+
+  response = client.code(
+    model: "codestral-2405",
+    prompt: "def hello(name : String)",
+    suffix: "",
+    temperature: 0.7
+  )
+
+  puts "Generated code:\n#{puts resp.choices[0].message.content}"
+```
+
 ## 🧠 Embeddings
 
 ```crystal
@@ -57,7 +72,7 @@ end
 - [x] Add Chat Completion
 - [x] Add Embeddings
 - [ ] Add Tests
-- [ ] Add FIM
+- [x] Add FIM
 - [ ] Add Agents
 - [ ] Add Classifiers
 - [ ] Add Files

@@ -61,6 +61,18 @@ struct Usage
   property total_tokens : Int32
 end
 
+struct CodeRequest
+  include JSON::Serializable
+
+  property model : String
+  property temperature : Float64
+  property prompt : String
+  property suffix : String
+
+  def initialize(@model, @temperature, @prompt, @suffix)
+  end
+end
+
 struct ChatResponse
   include JSON::Serializable
 
