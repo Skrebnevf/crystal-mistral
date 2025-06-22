@@ -40,7 +40,7 @@ puts response.choices[0].message.content
 ## 🧠 Embeddings
 
 ```crystal
-texts = ["London better than Paris!", "Let's go"]
+texts = ["Let's compare London and Paris", "Compare?!"]
 
 response = client.embeddings(
   model: "mistral-embed",
