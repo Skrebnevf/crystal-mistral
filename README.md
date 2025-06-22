@@ -25,7 +25,7 @@ client = CrystalMistral::Client.new
 
 ```crystal
 messages = [
-  Message.new(role: Role::User, content: "Hello!")
+  Messages.new(role: Role::User, content: "Hello!")
 ]
 
 response = client.chat(
