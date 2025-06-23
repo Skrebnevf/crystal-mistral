@@ -24,9 +24,12 @@ client = CrystalMistral::Client.new
 ## 💬 Chat Completion
 
 ```crystal
+# Use custom Messages type
 messages = [
   Messages.new(role: Role::User, content: "Hello!")
 ]
+# or String type
+messages = %([{"role": "user", "content": "Best place in Norilsk"}])
 
 response = client.chat(
   model: "mistral-large-latest",
@@ -65,6 +68,34 @@ response = client.embeddings(
 response.data.each_with_index do |embedding, idx|
   puts "Embedding ##{idx}: #{embedding.embedding[0..4]}"
 end
+```
+
+## 📊 Classifiers
+
+```crystal
+# Moderation
+response = client.moderation(
+  model: "mistral-moderation-latest",
+  input: "I hate you and want to hurt people"
+)
+
+puts "Content: #{response.results[0].categories}"
+
+# Chat moderation
+# Use custom Messages type
+messages = [
+  Messages.new(role: "user", content: "I want to hate someone."),
+  Messages.new(role: "assistant", content: "That doesn't sound good."),
+]
+# or String
+messages = %([{"role": "user", "content": "I want to hate someone."}])
+
+response = client.chat_moderations(
+  model: "mistral-chat-moderation-latest",
+  input: messages
+)
+
+puts "Content: #{response.results[0].categories}"
 ```
 
 ## ✔️ TODO

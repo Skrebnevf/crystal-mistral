@@ -26,12 +26,32 @@ struct Messages
   end
 end
 
+struct ClassifiersRequest
+  include JSON::Serializable
+
+  property model : String
+  property input : String
+
+  def initialize(@model, @input)
+  end
+end
+
+struct ClassifiersChatRequest
+  include JSON::Serializable
+
+  property model : String
+  property input : Array(Messages)
+
+  def initialize(@model, @input)
+  end
+end
+
 struct ChatRequest
   include JSON::Serializable
 
   property model : String
   property temperature : Float32
-  property messages : Array(Messages)
+  property messages : Array(Messages) | String
 
   def initialize(@model, @temperature, @messages)
   end
@@ -117,4 +137,48 @@ struct EmbeddingResponse
   property data : Array(EmbeddingObject)
   property model : String
   property usage : UsageInfo
+end
+
+struct CategoryScores
+  include JSON::Serializable
+
+  property sexual : Float64
+  property hate_and_discrimination : Float64
+  property violence_and_threats : Float64
+  property dangerous_and_criminal_content : Float64
+  property selfharm : Float64
+  property health : Float64
+  property financial : Float64
+  property law : Float64
+  property pii : Float64
+end
+
+struct Categories
+  include JSON::Serializable
+
+  property sexual : Bool
+  property hate_and_discrimination : Bool
+  property violence_and_threats : Bool
+  property dangerous_and_criminal_content : Bool
+  property selfharm : Bool
+  property health : Bool
+  property financial : Bool
+  property law : Bool
+  property pii : Bool
+end
+
+struct Result
+  include JSON::Serializable
+
+  property category_scores : CategoryScores
+  property categories : Categories
+end
+
+struct ModerationResponse
+  include JSON::Serializable
+
+  property id : String
+  property usage : Usage
+  property model : String
+  property results : Array(Result)
 end

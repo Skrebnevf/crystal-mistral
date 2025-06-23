@@ -7,7 +7,7 @@ struct APIError
   property message : String
   property type : String
   property param : String?
-  property code : String
+  property code : String?
 end
 
 struct ValidationSubError
