@@ -14,7 +14,7 @@ module CrystalMistral::Methods::Embeddings
   #
   # Raises:
   # - ArgumentError if model is empty
-  # - RuntimeError if API returns bad request code or unexpected error
+  # - RuntimeError via `handle_error` if the response indicates an error
   #
   # Example:
   # ```

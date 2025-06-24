@@ -16,7 +16,7 @@ module CrystalMistral::Methods::Chat
   #
   # Raises:
   # - ArgumentError if model is empty
-  # - RuntimeError with details if the API returns an error
+  # - RuntimeError via `handle_error` if the response indicates an error
   #
   # Example:
   # ```
@@ -32,6 +32,10 @@ module CrystalMistral::Methods::Chat
   #
   # # or String type
   # messages = %([{"role": "user", "content": "Best place in Norilsk"}])
+  #
+  # # if you just pass the string
+  # messages = “AAA WHAT TIME IS IT?!”
+  # # string convert to -> [Messages.new(role: "user", content: messages)]
   #
   # client = CrystalMistral::Client.new
   # response = client.chat(
@@ -49,12 +53,16 @@ module CrystalMistral::Methods::Chat
     raise ArgumentError.new "model must not be empty" if model.strip.empty?
 
     parsed_messages = case messages
-                      when String
-                        Array(Messages).from_json(messages)
                       when Array(Messages)
                         messages
+                      when String
+                        begin
+                          Array(Messages).from_json(messages)
+                        rescue ex : JSON::ParseException
+                          [Messages.new(role: "user", content: messages)]
+                        end
                       else
-                        raise ArgumentError.new "Unsupported type for messages"
+                        raise ArgumentError.new("Unsupported input type")
                       end
 
     payload = ChatRequest.new(

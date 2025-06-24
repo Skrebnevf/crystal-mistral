@@ -30,7 +30,9 @@ messages = [
 ]
 # or String type
 messages = %([{"role": "user", "content": "Best place in Norilsk"}])
-
+# if you just pass the string
+# messages = “AAA WHAT TIME IS IT?!”
+# string convert to -> [Messages.new(role: "user", content: messages)]
 response = client.chat(
   model: "mistral-large-latest",
   messages: messages,
@@ -91,11 +93,40 @@ messages = [
 messages = %([{"role": "user", "content": "I want to hate someone."}])
 
 response = client.chat_moderations(
-  model: "mistral-chat-moderation-latest",
+  model: "mistral-moderation-latest",
   input: messages
 )
 
 puts "Content: #{response.results[0].categories}"
+
+# Classification
+# if you just pass the string
+# messages = “AAA WHAT TIME IS IT?!”
+# string convert to -> [Messages.new(role: "user", content: messages)]
+# Note: It is not clear what classification model Mistral AI is offering
+response = client.classification(
+  model: "mistral-classification-model",
+  input: "This document discusses violent actions."
+)
+
+puts response
+
+# Classification Chat
+# if you just pass the string
+# messages = “AAA WHAT TIME IS IT?!”
+# string convert to -> [Messages.new(role: "user", content: messages)]
+# Note: It is not clear what classification model Mistral AI is offering
+messages = [
+  Messages.new(role: "user", content: "I hate everything."),
+  Messages.new(role: "assistant", content: "Let's keep things peaceful."),
+]
+
+response = client.classification_chat(
+  model: "mistral-classification-model",
+  input: messages
+)
+
+puts response
 ```
 
 ## ✔️ TODO
@@ -105,7 +136,7 @@ puts "Content: #{response.results[0].categories}"
 - [ ] Add Tests
 - [x] Add FIM
 - [ ] Add Agents
-- [ ] Add Classifiers
+- [x] Add Classifiers
 - [ ] Add Files
 - [ ] Add Fine Tuning
 

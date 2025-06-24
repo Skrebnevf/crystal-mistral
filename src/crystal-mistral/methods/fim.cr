@@ -16,7 +16,7 @@ module CrystalMistral::Methods::FIM
   #
   # Raises:
   # - ArgumentError if model or prompt is empty
-  # - RuntimeError if API returns bad request code or unexpected error
+  # - RuntimeError via `handle_error` if the response indicates an error
   #
   # Example:
   # ```
