@@ -17,7 +17,15 @@ class CrystalMistral::Client < CrystalMistral::ClientBuilder
 
   @mistral = "https://api.mistral.ai"
 
-  def headers
+  def initialize(api_key : String? = nil)
+    @api_key = api_key.presence || ENV["MISTRAL_API_KEY"]?.presence
+
+    if @api_key.nil?
+      raise ArgumentError.new "API key must be provided either as an argument or via MISTRAL_API_KEY environment variable"
+    end
+  end
+
+  protected def headers
     HTTP::Headers{
       "Authorization" => "Bearer #{api_key}",
       "Content-Type"  => "application/json",
@@ -25,11 +33,16 @@ class CrystalMistral::Client < CrystalMistral::ClientBuilder
     }
   end
 
-  def initialize(api_key : String? = nil)
-    @api_key = api_key.presence || ENV["MISTRAL_API_KEY"]?.presence
-
-    if @api_key.nil?
-      raise ArgumentError.new "API key must be provided either as an argument or via MISTRAL_API_KEY environment variable"
+  protected def handle_error(response)
+    case response.status.code
+    when 400
+      error = APIError.from_json response.body
+      raise "#{response.status}: #{response.status.code}, message: #{error.message}, code: #{error.code}"
+    when 422
+      error = ValidationError.from_json response.body
+      raise "#{response.status}: #{response.status.code}, message: #{error.message.detail[0].msg}"
+    else
+      raise "Unexpected status #{response.status.code}: #{response.body}"
     end
   end
 end

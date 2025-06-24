@@ -50,19 +50,8 @@ module CrystalMistral::Methods::FIM
 
     with_http_client @mistral do |client|
       response = client.post(path: "/v1/fim/completions", headers: headers, body: payload)
-
-      case response.status.code
-      when 200
-        ChatResponse.from_json response.body
-      when 400
-        error = APIError.from_json response.body
-        raise "#{response.status}: #{response.status.code}, message: #{error.message}, code: #{error.code}"
-      when 422
-        error = ValidationError.from_json response.body
-        raise "#{response.status}: #{response.status.code}, message: #{error.message.detail[0].msg}"
-      else
-        raise "Unexpected status #{response.status.code}: #{response.body}"
-      end
+      return ChatResponse.from_json response.body if response.status.success?
+      handle_error response
     end
   end
 end
