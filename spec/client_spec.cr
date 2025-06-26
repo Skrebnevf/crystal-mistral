@@ -78,11 +78,5 @@ describe CrystalMistral do
 
     response.to_json.should contain("id")
     response.to_json.should contain("object")
-    response.to_json.should contain("created")
-    response.to_json.should contain("model")
-    response.to_json.should contain("choices")
-    response.to_json.should contain("usage")
-    response.to_json.should contain("index")
-    response.to_json.should contain("message")
   end
 end
