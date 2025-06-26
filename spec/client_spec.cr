@@ -26,7 +26,7 @@ describe CrystalMistral do
     ),
     TestCase.new(
       name: "with string",
-      input: CHAT_RESPONSE,
+      input: STRING_MESSAGE,
       model: "mistral-small-2503"
     ),
   ]
@@ -64,7 +64,7 @@ describe CrystalMistral do
       .with(headers: headers)
       .to_return(
         status: 200,
-        body: CHAT_RESPONSE
+        body: CODE_COMPLETATION_RESPONSE
       )
 
     client = CrystalMistral::Client.new api_key
