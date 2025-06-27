@@ -1,5 +1,8 @@
 # ⚡ Crystal Mistral Client
 
+[![Crystal](https://img.shields.io/badge/language-Crystal-000?logo=crystal&logoColor=white)](https://crystal-lang.org/) 
+[![Crystal CI](https://github.com/Skrebnevf/crystal-mistral/actions/workflows/ci.yml/badge.svg)](https://github.com/teodor/crystal-mistral/actions/workflows/ci.yml)
+
 ## Installation
 
 1. Add the dependency to your `shard.yml`:
