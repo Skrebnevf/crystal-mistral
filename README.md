@@ -133,7 +133,7 @@ puts response
 
 - [x] Add Chat Completion
 - [x] Add Embeddings
-- [ ] Add Tests
+- [x] Add Tests
 - [x] Add FIM
 - [ ] Add Agents
 - [x] Add Classifiers
