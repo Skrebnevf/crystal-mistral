@@ -5,7 +5,6 @@ require "./mock_data.cr"
 
 url = "https://api.mistral.ai"
 api_key = "test-key"
-model = "mistral-model"
 
 describe CrystalMistral do
   headers = HTTP::Headers{
