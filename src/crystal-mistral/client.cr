@@ -6,12 +6,14 @@ require "./methods/chat.cr"
 require "./methods/fim.cr"
 require "./methods/embeddings.cr"
 require "./methods/classifiers.cr"
+require "./methods/files.cr"
 
 class CrystalMistral::Client < CrystalMistral::ClientBuilder
   include CrystalMistral::Methods::Chat
   include CrystalMistral::Methods::FIM
   include CrystalMistral::Methods::Embeddings
   include CrystalMistral::Methods::Classifiers
+  include CrystalMistral::Methods::Files
 
   property api_key : String?
 
@@ -38,6 +40,10 @@ class CrystalMistral::Client < CrystalMistral::ClientBuilder
     when 400
       error = APIError.from_json response.body
       raise "#{response.status}: #{response.status.code}, message: #{error.message}, code: #{error.code}"
+    when 401
+      raise "#{response.status.code} - #{response.status}: #{response.body}"
+    when 404
+      raise "#{response.status.code} - #{response.status}: #{response.body}"
     when 422
       error = ValidationError.from_json response.body
       raise "#{response.status}: #{response.status.code}, message: #{error.message.detail[0].msg}"

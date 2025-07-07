@@ -15,6 +15,23 @@ enum Role
   Tool
 end
 
+enum FilePurpose
+  FineTune
+  Batch
+  Ocr
+
+  def to_s
+    case self
+    when FineTune
+      "fine-tune"
+    when Batch
+      "batch"
+    when Ocr
+      "ocr"
+    end
+  end
+end
+
 # Represents a single message in the chat input payload
 struct Messages
   include JSON::Serializable
@@ -181,4 +198,18 @@ struct ModerationResponse
   property usage : Usage
   property model : String
   property results : Array(Result)
+end
+
+struct UploadFileResponse
+  include JSON::Serializable
+
+  property id : String
+  property object : String
+  property bytes : Int64
+  property created_at : Int64
+  property filename : String
+  property purpose : String
+  property sample_type : String
+  property num_lines : Int32
+  property source : String
 end

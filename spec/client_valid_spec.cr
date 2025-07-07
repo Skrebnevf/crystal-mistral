@@ -156,4 +156,17 @@ describe CrystalMistral do
       end
     end
   end
+
+  # it "upload file" do
+  #   WebMock.stub(:post, "#{url}/v1/files")
+  #     .with(headers: headers)
+  #     .to_return(
+  #       status: 200,
+  #       body: MODERATION_RESPONSE
+  #     )
+
+  #   client = CrystalMistral::Client.new api_key
+
+  #   client.upload_file(file_path: "", purpose: FilePurpose::Batch)
+  # end
 end

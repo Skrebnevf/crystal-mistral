@@ -21,22 +21,23 @@ abstract class CrystalMistral::ClientBuilder
   # - `"Exception error: ..."` on any other unhandled exception
   protected def with_http_client(
     url : String,
-    connet_timeout : Time::Span = 120.seconds,
+    connect_timeout : Time::Span = 120.seconds,
     &
   )
     uri = URI.parse url
-    client = HTTP::Client.new uri
 
-    client.connect_timeout = connet_timeout
+    HTTP::Client.new uri do |client|
+      client.connect_timeout = connect_timeout
 
-    begin
-      yield client
-    rescue ex : IO::TimeoutError
-      raise "Timeout error: #{ex.message}"
-    rescue ex : IO::Error
-      raise "Network erorr: #{ex.message}"
-    rescue ex : Exception
-      raise "Exeption error: #{ex.message}"
+      begin
+        yield client
+      rescue ex : IO::TimeoutError
+        raise "Timeout error: #{ex.message}"
+      rescue ex : IO::Error
+        raise "Network error: #{ex.message}"
+      rescue ex : Exception
+        raise "Exception error: #{ex.message}"
+      end
     end
   end
 end
